@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field
-from pydantic.main import SchemaExtraCallable
 
 
 class PostSchema(BaseModel):
