@@ -13,11 +13,10 @@ class AuthBearer(HTTPBearer):
     # Authorization Middleware appled
     async def __call__(self, request: Request):
         credentials: HTTPAuthorizationCredentials = await super(AuthBearer, self).__call__(request)
-        print(self.oauth2_scheme)
+        # Converting Class to Dict to check 'Bearer' token type .
+        dict_credentials = dict(credentials)
         if credentials:
-            print(credentials)
-            # print(credentials.schema(), credentials.schema == "Bearer")
-            if not credentials.schema == "Bearer":
+            if not dict_credentials['scheme'] == "Bearer":
                 raise HTTPException(
                     status_code=403, detail="Invalid Authentication type.")
             if not self.verify_jwt(credentials.credentials):

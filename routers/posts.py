@@ -2,10 +2,13 @@ from auth.auth_checker import AuthBearer
 from fastapi import APIRouter
 from fastapi import Depends
 
+# routes
 router = APIRouter()
+PROTECTED_ROUTE = [Depends(AuthBearer())]
+tags_posts = ["Posts Routes"]
 
 
-@router.get('/posts', dependencies=[Depends(AuthBearer())],  tags=["posts"])
+@router.get('/posts', dependencies=PROTECTED_ROUTE,  tags=tags_posts)
 def posts() -> dict:
     posts = [
         {
@@ -15,5 +18,6 @@ def posts() -> dict:
         }
     ]
     return {
-        "posts": posts
+        "posts": posts,
+        "message": 'All available posts.'
     }

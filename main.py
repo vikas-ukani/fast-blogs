@@ -1,19 +1,21 @@
-import uvicorn
-from fastapi import FastAPI
-from routers import (route, users, posts)
 
+from fastapi import FastAPI
+
+from routers.route import router as DefaultRoutes
+from routers.users import router as UserRoutes
+from routers.posts import router as PostsRoutes
+
+# Start FastAPI Application...
 app = FastAPI()
 
-app.include_router(route.router)
-app.include_router(users.router)
-app.include_router(posts.router)
+# Include Routes
+app.include_router(DefaultRoutes)
+app.include_router(UserRoutes)
+app.include_router(PostsRoutes)
 
 
+# Application Default Route
 @app.get('/', tags=['root'])
 async def index() -> dict:
-    return {
-        "message": " Index loaded;"
-    }
+    return {"message": " Welcome to the FastAPI, Please visit `/docs` to access an APIs..."}
 
-if __name__ == '__main__':
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
